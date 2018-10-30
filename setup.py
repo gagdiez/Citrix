@@ -16,6 +16,6 @@ setup(name=package_name,
       author='Gallardo Diez, Guillermo Alejandro',
       author_email='guillermo-gallardo.diez@inria.fr',
       include_package_data=True,
-      packages=[package_name, cli_module, utils_module],
+      packages=[package_name, cli_module],#, utils_module],
       scripts=['scripts/ct_cifti_average'],
       zip_safe=False)
