@@ -1,4 +1,4 @@
-from collections.abc import Sequence
+import abc
 from warnings import warn
 
 import nibabel
@@ -16,7 +16,8 @@ def load(filename):
 
     for file_extension, Class in cifti_file_types.items():
         if filename.endswith(file_extension):
-            return Class(filename)
+            nib = nibabel.load(filename)
+            return Class(nib)
 
     warn("Citrix doesn't know how to handle this file type")
     return nibabel.load(filename)
@@ -24,8 +25,7 @@ def load(filename):
 
 class Cifti():
     def __init__(self, nib):
-        self.row = None
-        self.column = None
+
         self._nibabel = nib
 
         for ext in nib.header.extensions:
@@ -34,12 +34,10 @@ class Cifti():
 
         self._header = header
 
-        self._row = next([m for m in header
-                          if m.applies_to_matrix_dimension[0] == 0])
-        self._column = next([m for m in header
-                             if m.applies_to_matrix_dimension[0] == 1])
+        self._row = header.matrix.get_index_map(0)
+        self._column = header.matrix.get_index_map(1)
 
-    @abstractmethod
+    @abc.abstractmethod
     def get_data(self):
         """Returns the data of the cifti file"""
         pass
