@@ -4,6 +4,10 @@ def is_cifti(filename):
     """Checks if the file is a cifti file"""
     # check it has a cifti header
     header = nibabel.load(filename).header
+
+    if isinstance(header, nibabel.Cifti2Header):
+        return True
+
     codes = [e.get_code() for e in header.extensions]
     return 32 in codes
 
