@@ -19,7 +19,7 @@ def check_input(infile, outfile, surface_files):
                 raise ValueError('The file {} does not exist'.format(sfile))
 
 
-def dtseries_to_nifti(dtseries_file, outfile, surface_files=[]):
+def dtseries_to_nifti(dtseries_file, outfile, surface_files=None):
     """Transforms a dtseries file into a nifti file"""
     check_input(dtseries_file, outfile, surface_files)
     # load time series
@@ -27,7 +27,8 @@ def dtseries_to_nifti(dtseries_file, outfile, surface_files=[]):
     time_series = dtseries.get_data()[0]
 
     # load surfaces if present
-    surfaces = [surface.load(sf) for sf in surface_files]
+    if surface_files is not None:
+        surfaces = [surface.load(sf) for sf in surface_files]
 
     # get information about volume and create it
     volume = dtseries.column.volume
@@ -38,7 +39,7 @@ def dtseries_to_nifti(dtseries_file, outfile, surface_files=[]):
 
     for bm in dtseries.column.brain_models:
         if bm.model_type == models.SURFACE:
-            if not surfaces:
+            if surface_files is None:
                 raise ValueError(('There are surface models in the dtseries,'
                                   'but no surface was given as input'))
             idx_vertices = np.array(bm.vertex_indices)
