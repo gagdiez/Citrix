@@ -41,19 +41,6 @@ class Cifti(nibabel.Cifti2Image):
         self._row = cifti_header.matrix.get_index_map(0)
         self._column = cifti_header.matrix.get_index_map(1)
 
-    @abc.abstractmethod
-    def get_data(self):
-        """Returns the data of the cifti file"""
-        pass
-
-    @property
-    def affine(self):
-        return self._nibabel.affine
-
-    @property
-    def header(self):
-        return self._header
-
     @property
     def row(self):
         return self._row
@@ -72,9 +59,5 @@ class DenseDenseConnectivity(Cifti):
             self._dataobj = self.dataobj.reshape(shape[-2:])
 
 class DenseTimeSeries(Cifti):
-
-    def get_data(self):
-        if isinstance(self._nibabel, nibabel.Cifti2Image):
-            return self._nibabel.get_data()
-        #else
-        return self._nibabel.get_data()[0, 0, 0, 0]
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)

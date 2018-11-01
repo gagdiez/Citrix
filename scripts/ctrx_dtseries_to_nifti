@@ -1,0 +1,21 @@
+#!/usr/bin/env python
+''' Command Line Interface of cifti_average '''
+import argparse
+from citrix.cli.dtseries_to_nifti import dtseries_to_nifti
+
+
+if __name__ == "__main__":
+    # Parser
+    parser = argparse.ArgumentParser(description='Creates dendrogram')
+
+    parser.add_argument('dtseries', type=str, help='CIFTI dtseries file')
+
+    parser.add_argument('out', type=str, help='output (nifti file)')
+
+    parser.add_argument('-surface', dest='surface_file', nargs='+',
+                        help=('surface in the same space as the dtseries. The'
+                              'vertices are used to extract the dtseries data'))
+
+    args = parser.parse_args()
+
+    dtseries_to_nifti(args.dtseries, args.out, args.surface_file)

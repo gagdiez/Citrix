@@ -17,5 +17,5 @@ setup(name=package_name,
       author_email='guillermo-gallardo.diez@inria.fr',
       include_package_data=True,
       packages=[package_name, cli_module],# utils_module],
-      scripts=['scripts/ct_cifti_average'],
+      scripts=['scripts/ctrx_dtseries_to_nifti'],
       zip_safe=False)

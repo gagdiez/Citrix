@@ -33,9 +33,9 @@ class CiftiMesh(nimesh.Mesh):
         self._structure = structure
 
     @property
-    def model(self):
+    def model_type(self):
         return self._model
 
     @property
-    def structure(self):
+    def brain_structure(self):
         return self._structure
