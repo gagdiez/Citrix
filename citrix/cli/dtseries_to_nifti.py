@@ -24,7 +24,7 @@ def dtseries_to_nifti(dtseries_file, outfile, surface_files=None):
     check_input(dtseries_file, outfile, surface_files)
     # load time series
     dtseries = load(dtseries_file)
-    time_series = dtseries.get_data()[0]
+    time_series = dtseries.get_data()
 
     # load surfaces if present
     if surface_files is not None:

@@ -28,7 +28,7 @@ def dlabel_to_nifti(dlabel_file, outfile,
     check_input(dlabel_file, outfile, reference_file, surface_files)
     # load time series
     dlabel = load(dlabel_file)
-    labels = dlabel.get_data()[0]
+    labels = dlabel.get_data()
 
     # load surfaces if present
     if surface_files is not None:

@@ -62,7 +62,13 @@ class DenseDenseConnectivity(Cifti):
 class DenseTimeSeries(Cifti):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        shape = self.dataobj.shape
+        if len(shape) > 1:
+            self._dataobj = self.dataobj.reshape([shape[-1]])
 
 class DenseLabels(Cifti):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        shape = self.dataobj.shape
+        if len(shape) > 1:
+            self._dataobj = self.dataobj.reshape([shape[-1]])
