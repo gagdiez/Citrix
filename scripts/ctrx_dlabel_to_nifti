@@ -1,0 +1,27 @@
+#!/usr/bin/env python
+''' Command Line Interface of cifti_average '''
+import argparse
+from citrix.cli.dlabel_to_nifti import dlabel_to_nifti
+
+
+if __name__ == "__main__":
+    # Parser
+    parser = argparse.ArgumentParser(description=('Transforms a dlabel into a '
+                                                  'nifti file'))
+
+    parser.add_argument('dlabel', type=str, help='CIFTI dtseries file')
+
+    parser.add_argument('out', type=str, help='output (nifti file)')
+
+    parser.add_argument('-reference', dest='reference_file',
+                        help=('reference volume from which to take shape and '
+                              'affine transformation'))
+
+    parser.add_argument('-surface', dest='surface_file', nargs='+',
+                        help=('surface in the same space as the dtseries. The'
+                              'vertices are used to extract the dtseries data'))
+
+    args = parser.parse_args()
+
+    dlabel_to_nifti(args.dlabel, args.out,
+                    args.reference_file, args.surface_file)

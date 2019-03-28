@@ -12,8 +12,9 @@ from nibabel.cifti2 import Cifti2NamedMap as NamedMap
 from nibabel.cifti2 import Cifti2Parcel as Parcel
 
 def load(filename):
-    cifti_file_types = {'.dconn.nii':DenseDenseConnectivity,
-                        '.dtseries.nii':DenseTimeSeries}
+    cifti_file_types = {'.dconn.nii': DenseDenseConnectivity,
+                        '.dtseries.nii': DenseTimeSeries,
+                        '.dlabel.nii': DenseLabels}
 
     for file_extension, Class in cifti_file_types.items():
         if filename.endswith(file_extension):
@@ -59,5 +60,9 @@ class DenseDenseConnectivity(Cifti):
             self._dataobj = self.dataobj.reshape(shape[-2:])
 
 class DenseTimeSeries(Cifti):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+class DenseLabels(Cifti):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
