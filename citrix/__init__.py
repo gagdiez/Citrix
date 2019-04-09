@@ -1,16 +1,14 @@
 import nibabel
-import nimesh
 
-from . import utils, surface, cifti
+from . import utils, surface, cifti, gifti
 
 def load(filename):
     """Loading function that can handle gifti, nifti and cifti files"""
     if filename.endswith('surf.gii'):
-        # CIFTI SURFACE
+        # SURFACE
         return surface.load(filename)
-    elif filename.endswith('gii'):
-        # GIFTI SURFACE
-        return nimesh.io.load(filename)
+    elif filename.endswith('.gii'):
+        return gifti.load(filename)
     elif filename.endswith('nii'):
         if utils.is_cifti(filename):
             return cifti.load(filename)
