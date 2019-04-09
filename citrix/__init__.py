@@ -1,24 +1,21 @@
 import nibabel
 
-from . import utils, surface, cifti, gifti
+from . import utils, cifti, gifti, build
 
 def load(filename):
     """Loading function that can handle gifti, nifti and cifti files"""
-    if filename.endswith('surf.gii'):
-        # SURFACE
-        return surface.load(filename)
-    elif filename.endswith('.gii'):
+    if filename.endswith('gii'):
         return gifti.load(filename)
-    elif filename.endswith('nii'):
+    elif filename.endswith('nii') or filename.endswith('nii.gz'):
         if utils.is_cifti(filename):
             return cifti.load(filename)
         else:
             return nibabel.load(filename)
     else:
-        return nibabel.load(filename)
+        raise ValueError("We can only load NIFTI (nii) or GIFTI (gii) files")
 
 def save(filename, data, header=None, affine=None, version=2):
-    ''' Simple wrapper around nibabel.save '''
+    ''' Simple wrapper around nibabel.save for CIFTI/NIFTI files '''
     if version == 1:
         nif_image = nibabel.Nifti1Image(data, affine, header)
     else:

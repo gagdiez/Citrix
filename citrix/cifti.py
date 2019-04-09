@@ -19,14 +19,24 @@ def load(filename):
     for file_extension, Class in cifti_file_types.items():
         if filename.endswith(file_extension):
             nib = nibabel.load(filename)
-            return Class(nib)
+            return Class.from_nibabel(nib)
 
     warn("Citrix doesn't know how to handle this file type")
     return nibabel.load(filename)
 
 
 class Cifti(nibabel.Cifti2Image):
-    def __init__(self, nib):
+
+    @property
+    def row(self):
+        return self.header.matrix.get_index_map(0)
+
+    @property
+    def column(self):
+        return self.header.matrix.get_index_map(1)
+
+    @classmethod
+    def from_nibabel(klass, nib):
 
         if isinstance(nib, nibabel.Cifti2Image):
             cifti_header = nib.header
@@ -37,18 +47,7 @@ class Cifti(nibabel.Cifti2Image):
                     cifti_header = ext.get_content()
             nifti_header = nib.header
 
-        super().__init__(nib.dataobj, cifti_header, nifti_header)
-
-        self._row = cifti_header.matrix.get_index_map(0)
-        self._column = cifti_header.matrix.get_index_map(1)
-
-    @property
-    def row(self):
-        return self._row
-
-    @property
-    def column(self):
-        return self._column
+        return klass(nib.dataobj, cifti_header, nifti_header)
 
 
 class DenseDenseConnectivity(Cifti):
