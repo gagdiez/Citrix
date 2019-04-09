@@ -28,3 +28,7 @@ class GiftiFunction(Gifti):
     @property
     def function_data(self):
         return self.darrays[0].data
+
+    def save(self, filename):
+        self.to_filename(filename)
+
