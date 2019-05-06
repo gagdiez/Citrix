@@ -2,7 +2,7 @@ import nibabel
 import numpy as np
 import os
 
-from .. import models, surface, load, save
+from .. import models, load, save
 
 def check_input(infile, outfile, surface_files):
 
@@ -28,7 +28,7 @@ def dtseries_to_nifti(dtseries_file, outfile, surface_files=None):
 
     # load surfaces if present
     if surface_files is not None:
-        surfaces = [surface.load(sf) for sf in surface_files]
+        surfaces = [load(sf) for sf in surface_files]
 
     # get information about volume and create it
     volume = dtseries.column.volume

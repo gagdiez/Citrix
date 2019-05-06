@@ -2,7 +2,7 @@ import nibabel
 import numpy as np
 import os
 
-from .. import models, surface, load, save
+from .. import models, load, save
 
 def check_input(infile, outfile, reference_file, surface_files):
 
@@ -32,7 +32,7 @@ def dlabel_to_nifti(dlabel_file, outfile,
 
     # load surfaces if present
     if surface_files is not None:
-        surfaces = [surface.load(sf) for sf in surface_files]
+        surfaces = [load(sf) for sf in surface_files]
 
     # get information about volume and create it
     if dlabel.column.volume is not None:
