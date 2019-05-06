@@ -79,4 +79,4 @@ def dlabel_to_nifti(dlabel_file, outfile,
             off, cnt = bm.index_offset, bm.index_count
             nifti[tuple(np.transpose(voxels))] = labels[off:off+cnt]
 
-    save(outfile, nifti, None, affine, version=2)
+    save(outfile, nifti, None, affine, version=1)

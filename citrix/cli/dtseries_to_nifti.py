@@ -58,4 +58,4 @@ def dtseries_to_nifti(dtseries_file, outfile, surface_files=None):
         off, cnt = bm.index_offset, bm.index_count
         nifti[tuple(np.transpose(voxels))] = time_series[off:off+cnt]
 
-    save(outfile, nifti, None, affine, version=2)
+    save(outfile, nifti, None, affine, version=1)
