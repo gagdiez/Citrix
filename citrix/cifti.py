@@ -14,6 +14,7 @@ from nibabel.cifti2 import Cifti2Parcel as Parcel
 def load(filename):
     cifti_file_types = {'.dconn.nii': DenseDenseConnectivity,
                         '.dtseries.nii': DenseTimeSeries,
+                        '.dscalar.nii': DenseScalar,
                         '.dlabel.nii': DenseLabels}
 
     for file_extension, Class in cifti_file_types.items():
@@ -69,5 +70,12 @@ class DenseLabels(Cifti):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         shape = self.dataobj.shape
-        if len(shape) > 1:
+        if shape[0] == 1:
+            self._dataobj = self.dataobj.reshape([shape[-1]])
+
+class DenseScalar(Cifti):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        shape = self.dataobj.shape
+        if shape[0] ==  1:
             self._dataobj = self.dataobj.reshape([shape[-1]])
