@@ -28,7 +28,7 @@ def function(data, cifti_structure):
     meta = common_meta(cifti_structure)
 
     darray = nibabel.gifti.GiftiDataArray(data=data.astype(np.float32),
-                                          intent=11, datatype=16)
+                                          intent=1008, datatype=16)
 
     return GiftiFunction(darrays=[darray], meta=meta)
 
