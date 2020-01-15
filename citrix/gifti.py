@@ -50,7 +50,10 @@ class GiftiFunction(Gifti):
 
     @property
     def function_data(self):
-        return self.darrays[0].data
+        if len(self.darrays) == 1:
+            return self.darrays[0].data
+        else:
+            return np.array([d.data for d in self.darrays])
 
     def save(self, filename):
         self.to_filename(filename)
