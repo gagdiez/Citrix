@@ -50,7 +50,7 @@ def dlabel(data, structures, label_table, volume_shape=None, affine=np.eye(4)):
     mip_brain_models = nibabel.cifti2.Cifti2MatrixIndicesMap([1], indices.BRAIN_MODELS)
     for s in structures: mip_brain_models .append(s)
 
-    if any([s.model_type == models.VOXEL] for s in structures):
+    if any([s.model_type == models.VOXEL for s in structures]):
         if volume_shape is None:
             raise ValueError("A structure is of type voxel, "
                              "but no volume dimension was given")
