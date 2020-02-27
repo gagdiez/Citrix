@@ -66,3 +66,35 @@ def dlabel(data, structures, label_table, volume_shape=None, affine=np.eye(4)):
     header = nibabel.cifti2.Cifti2Header(matrix)
 
     return nibabel.cifti2.Cifti2Image(data[None, :], header, None)
+
+
+def pdconn(data, parcels, structures, volume_shape=None, affine=np.eye(4)):
+    """Builds a pdconn cifti"""
+
+    mip_parcels = nibabel.cifti2.Cifti2MatrixIndicesMap([1], indices.PARCELS)
+    mip_brain_models = nibabel.cifti2.Cifti2MatrixIndicesMap([0], indices.BRAIN_MODELS)
+
+    for p in parcels: mip_parcels.append(p)
+   
+    for s in structures:
+        mip_brain_models.append(s)
+        
+        if s.model_type == models.SURFACE:
+            mip_parcels.append(nibabel.cifti2.Cifti2Surface(s.brain_structure, s.surface_number_of_vertices))
+
+    if any([s.model_type == models.VOXEL for s in structures]):
+        if volume_shape is None:
+            raise ValueError("A structure is of type voxel, "
+                             "but no volume dimension was given")
+        transform = nibabel.cifti2.Cifti2TransformationMatrixVoxelIndicesIJKtoXYZ(-3)
+        transform.matrix = affine
+        mip_brain_models.volume = nibabel.cifti2.Cifti2Volume(volume_shape,
+                                                              transform)
+
+    matrix = nibabel.cifti2.Cifti2Matrix()
+    matrix.append(mip_parcels)
+    matrix.append(mip_brain_models)
+
+    header = nibabel.cifti2.Cifti2Header(matrix)
+
+    return nibabel.cifti2.Cifti2Image(data, header, None)
