@@ -11,6 +11,7 @@ from nibabel.cifti2 import Cifti2LabelTable as LabelTable
 from nibabel.cifti2 import Cifti2NamedMap as NamedMap
 from nibabel.cifti2 import Cifti2Parcel as Parcel
 from nibabel.cifti2 import Cifti2Vertices as Vertices
+from nibabel.cifti2 import Cifti2VertexIndices as VertexIndices
 
 def load(filename):
     cifti_file_types = {'.dconn.nii': DenseDenseConnectivity,
