@@ -5,3 +5,10 @@ Particularly, this package wraps different cifti-related nibabel functions to ea
 
 So far the package includes two useful command line tools: ctrx_dlabel_to_nifti and ctrx_dtseries_to_nifti, allowing to transform between surface-based data and
 their volumetric counterpart.
+
+## Install
+Clone this repository in your computer, then execute:
+
+```bash
+pip install . -e
+```
